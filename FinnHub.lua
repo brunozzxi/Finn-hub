@@ -2285,9 +2285,25 @@ function TweenTempleLegit()
 	end)
 
     local Client = game.Players.LocalPlayer
-    local replicatedCombatFramework = game:GetService("ReplicatedStorage"):WaitForChild("CombatFramework")
-local STOP = require(replicatedCombatFramework:WaitForChild("Particle"))
-    local STOPRL = require(replicatedCombatFramework:WaitForChild("RigLib"))
+local playerScripts = Client:WaitForChild("PlayerScripts", 5) -- espera até 5 segundos
+
+if not playerScripts then
+    warn("PlayerScripts não encontrado no jogador.")
+    return
+end
+    local combatFramework = playerScripts:WaitForChild("CombatFramework", 5)
+if not combatFramework then
+    warn("CombatFramework não encontrado em PlayerScripts.")
+    return
+end
+local STOP = require(combatFramework:WaitForChild("Particle"))
+local STOPRL = require(combatFramework:WaitForChild("RigLib"))
+
+print("Teste: CombatFramework carregado?", combatFramework ~= nil)
+print("Teste: Particle carregado?", STOP ~= nil)
+print("Teste: RigLib carregado?", STOPRL ~= nil)
+
+(combatFramework:WaitForChild("RigLib"))
     spawn(function()
         while task.wait() do
             pcall(function()
