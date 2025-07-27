@@ -1011,7 +1011,31 @@ function UpdateIslandESP()
                         name.TextStrokeTransparency = 0.5
                         name.TextColor3 = Color3.fromRGB(7, 236, 240)
                     else
-                        v['NameEsp'].TextLabel.Text = (v.Name ..'   \n'.. round((game:GetService('Players').LocalPlayer.Character.Head.Position - v.Position).Magnitude/3) ..' Distance')
+                        local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Client = Players.LocalPlayer
+
+-- Aguarda PlayerScripts e CombatFramework com timeout de 10 segundos
+local playerScripts = Client:WaitForChild("PlayerScripts")
+local combatFramework = playerScripts:WaitForChild("CombatFramework", 10)
+if not combatFramework then
+    warn("CombatFramework não encontrado no PlayerScripts.")
+    return
+end
+
+local replicatedCombatFramework = ReplicatedStorage:WaitForChild("CombatFramework", 10)
+if not replicatedCombatFramework then
+    warn("CombatFramework não encontrado no ReplicatedStorage.")
+    return
+end
+
+-- Agora sim podemos fazer o require com segurança
+local STOP = require(combatFramework:WaitForChild("Particle"))
+local STOPRL = require(replicatedCombatFramework:WaitForChild("RigLib"))
+
+spawn(function()
+    -- seu código continua aqui normalmente
+end)
                     end
                 end
             else
